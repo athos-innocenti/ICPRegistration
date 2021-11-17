@@ -5,7 +5,7 @@ close all
 % Initial rotation's angle from 0 to 2PI with angle's step of PI/6
 ANGLE_STEP = 30;
 % Number of tries for each initial combination: 1D/3D rotation+ random 3D traslation
-TRIES_ANGLE = 25;
+TRIES_ANGLE = 100;
 % Number of tries for each initial combination: random 3D rotation + random 3D traslation
 TRIES_ITER = 100;
 % Maximum ICP iterations
@@ -15,9 +15,9 @@ MAX_TRASLATION = 1.0;
 % Random initial 3D rotation matrix, different for each try, with max rotation = 360°
 MAX_ROTATION = 360;
 % Original point cloud (ends with 0)
-ORIGINAL_MODEL = '/model/office_chair_0.ply';
+ORIGINAL_MODEL = './model/office_chair_0.ply';
 % Transformed point cloud (ends with 1 - moving point cloud with fewer points)
-TRANSFORMED_MODEL = '/model/office_chair_1.ply';
+TRANSFORMED_MODEL = './model/office_chair_1.ply';
 
 % Given an initial rotation's angle Theta from 0° to 360° with step of 30°,
 % run ICP algorithm for TRIES_ANGLE times with different 3D random initial translation vector for each try.
