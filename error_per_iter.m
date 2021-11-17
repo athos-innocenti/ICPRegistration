@@ -12,6 +12,8 @@ function [errors, times] = error_per_iter(originalModel, transformedModel, tries
 
         columnIndex = 1;
         for maxIter = maxIterationsVector
+            fprintf('Try: %d Max iteration: %d \n', t, maxIter);
+
             originalCloud = pcread(originalModel);
             transformedCloud = pcread(transformedModel);
 
@@ -21,7 +23,9 @@ function [errors, times] = error_per_iter(originalModel, transformedModel, tries
             tic;
             [~, ~, rmse] = pcregistericp(ptCloudTransformed, originalCloud, 'Metric', 'pointToPoint', 'MaxIterations', maxIter, 'Tolerance', [0.001, 0.005]);
             elapsedTime = toc;
+            elapsedTime = elapsedTime * 1000;
 
+            fprintf('Error: %f Time[ms]: %f \n\n', rmse, elapsedTime);
             errors(t, columnIndex) = rmse;
             times(t, columnIndex) = elapsedTime;
             columnIndex = columnIndex + 1;
