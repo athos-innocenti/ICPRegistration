@@ -1,28 +1,44 @@
-function [avgError, avgTime] = error_per_angle(originalModel, transformedModel, triesPerAngle, angleStep, maxTraslation, maxIterations)
-    avgError = zeros(1, 360/angleStep + 1);
-    avgTime = zeros(1, 360/angleStep + 1);
+function [avgError, avgTime] = error_per_angle(originalModel, transformedModel, triesPerAngle, angles, maxTraslation, maxIterations, rotType)
+    avgError = zeros(1, length(angles));
+    avgTime = zeros(1, length(angles));
     vectorIndex = 1;
-    for angleIter = 0:angleStep:360
+    for angleIter = angles
         errors = zeros(1, triesPerAngle);
         times = zeros(1, triesPerAngle);
         for t = 1:triesPerAngle
-            fprintf('Angle: %d Iter: %d \n', angleIter, t);
+            trsX = rand(1, maxTraslation);
+            trsY = rand(1, maxTraslation);
+            trsZ = rand(1, maxTraslation);
+            fprintf('ROTATION type:%s angle:%d° try:%d \n', rotType, angleIter, t);
+            fprintf('TRASLATION x:%3f y:%3f z:%3f \n', trsX, trsY, trsZ);
 
             originalCloud = pcread(originalModel);
             transformedCloud = pcread(transformedModel);
-            
             radAngle = deg2rad(angleIter);
-            initialTransformation = transformation_matrix(radAngle, radAngle, radAngle, rand(1, maxTraslation), rand(1, maxTraslation), rand(1, maxTraslation));
+            if rotType == 'X'
+                % Rotation w.r.t X axis
+                initialTransformation = transformation_matrix(radAngle, 0, 0, trsX, trsY, trsZ);
+            elseif rotType == 'Y'
+                % Rotation w.r.t Y axis
+                initialTransformation = transformation_matrix(0, radAngle, 0, trsX, trsY, trsZ);
+            elseif rotType == 'Z'
+                % Rotation w.r.t Z axis
+                initialTransformation = transformation_matrix(0, 0, radAngle, trsX, trsY, trsZ);
+            else
+                % 3D rotation
+                initialTransformation = transformation_matrix(radAngle, radAngle, radAngle, trsX, trsY, trsZ);
+            end
             ptCloudTransformed = pctransform(transformedCloud, initialTransformation);
             
             tic;
-            [~, ~, rmse] = pcregistericp(ptCloudTransformed, originalCloud, 'Metric', 'pointToPoint', 'MaxIterations', maxIterations, 'Tolerance', [0.001, 0.005]);
-            % [~, movingReg, rmse] = pcregistericp(ptCloudTransformed, originalCloud, 'Metric', 'pointToPoint', 'MaxIterations', maxIterations);
+            [~, ~, rmse] = pcregistericp(ptCloudTransformed, originalCloud, 'Metric', 'pointToPoint', 'MaxIterations', maxIterations, 'Tolerance', [0.0001, 0.0005]);
+            % [~, movingReg, rmse] = pcregistericp(ptCloudTransformed, originalCloud, 'Metric', 'pointToPoint', 'MaxIterations', maxIterations, 'Tolerance', [0.0001, 0.0005]);
             % pcshowpair(originalCloud, movingReg);
             elapsedTime = toc;
+            % tic + toc return elapsed time in seconds
             elapsedTime = elapsedTime * 1000;
             
-            fprintf('Error: %f Time[ms]: %f \n\n', rmse, elapsedTime);
+            fprintf('Error:%f Time[ms]:%f \n\n', rmse, elapsedTime);
             errors(1, t) = rmse;
             times(1, t) = elapsedTime;
         end
