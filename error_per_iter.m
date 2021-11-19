@@ -23,7 +23,7 @@ function [errors, times] = error_per_iter(originalModel, transformedModel, tries
             ptCloudTransformed = pctransform(transformedCloud, initialTransformation);
             
             tic;
-            [~, ~, rmse] = pcregistericp(ptCloudTransformed, originalCloud, 'Metric', 'pointToPoint', 'MaxIterations', maxIter, 'Tolerance', [0.0001, 0.0005]);
+            [~, ~, rmse] = pcregistericp(ptCloudTransformed, originalCloud, 'Metric', 'pointToPoint', 'MaxIterations', maxIter, 'Tolerance', [0.001, 0.001]);
             elapsedTime = toc;
             % tic + toc return elapsed time in seconds
             elapsedTime = elapsedTime * 1000;
