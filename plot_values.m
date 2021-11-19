@@ -4,7 +4,7 @@ function [] = plot_values(x, y, title, modelId, rotType, numIters)
     ylabel(title);
     plt = gca;
     plotFileName = ['./performance/', modelId, '_', lower(title), rotType, '_', num2str(numIters), 'i.png'];
-    exportgraphics(plt, plotFileName);
+    exportgraphics(plt, plotFileName, 'Resolution', 300);
     dataFileName = ['./performance/', modelId, '_', lower(title), rotType, '_', num2str(numIters), 'i.csv'];
     writematrix(transpose(y), dataFileName);
 end
