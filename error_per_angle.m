@@ -31,8 +31,8 @@ function [avgError, avgTime] = error_per_angle(originalModel, transformedModel, 
             ptCloudTransformed = pctransform(transformedCloud, initialTransformation);
             
             tic;
-            [~, ~, rmse] = pcregistericp(ptCloudTransformed, originalCloud, 'Metric', 'pointToPoint', 'MaxIterations', maxIterations, 'Tolerance', [0.0001, 0.0005]);
-            % [~, movingReg, rmse] = pcregistericp(ptCloudTransformed, originalCloud, 'Metric', 'pointToPoint', 'MaxIterations', maxIterations, 'Tolerance', [0.0001, 0.0005]);
+            [~, ~, rmse] = pcregistericp(ptCloudTransformed, originalCloud, 'Metric', 'pointToPoint', 'MaxIterations', maxIterations, 'Tolerance', [0.001, 0.001]);
+            % [~, movingReg, rmse] = pcregistericp(ptCloudTransformed, originalCloud, 'Metric', 'pointToPoint', 'MaxIterations', maxIterations, 'Tolerance', [0.001, 0.001]);
             % pcshowpair(originalCloud, movingReg);
             elapsedTime = toc;
             % tic + toc return elapsed time in seconds
