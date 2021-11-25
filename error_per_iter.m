@@ -2,18 +2,22 @@ function [errors, times] = error_per_iter(originalModel, transformedModel, tries
     errors = zeros(triesPerIter, length(maxIterationsVector));
     times = zeros(triesPerIter, length(maxIterationsVector));
     for t = 1:triesPerIter
-        rotX = round(rand(1, maxRotation), 0);
-        rotY = round(rand(1, maxRotation), 0);
-        rotZ = round(rand(1, maxRotation), 0);
+        % Generate 1 integer from the uniform distribution between 
+        % 0 and maxRotation
+        rotX = randi([0 maxRotation], 1, 1);
+        rotY = randi([0 maxRotation], 1, 1);
+        rotZ = randi([0 maxRotation], 1, 1);
 
-        trsX = rand(1, maxTraslation);
-        trsY = rand(1, maxTraslation);
-        trsZ = rand(1, maxTraslation);
+        % generate a 1-by-1 vector of uniformly distributed numbers in 
+        % the interval (0, maxTraslation)
+        trsX = 0 + (maxTraslation - 0)*rand(1, 1);
+        trsY = 0 + (maxTraslation - 0)*rand(1, 1);
+        trsZ = 0 + (maxTraslation - 0)*rand(1, 1);
 
         columnIndex = 1;
         for maxIter = maxIterationsVector
             fprintf('Try:%d MaxIteration:%d  \n', t, maxIter);
-            fprintf('ROTATION x:%f° y:%f° z:%f° \n', rotX, rotY, rotZ);
+            fprintf('ROTATION x:%d° y:%d° z:%d° \n', rotX, rotY, rotZ);
             fprintf('TRASLATION x:%3f y:%3f z:%3f \n', trsX, trsY, trsZ);
 
             originalCloud = pcread(originalModel);
