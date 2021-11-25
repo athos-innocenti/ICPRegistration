@@ -3,7 +3,9 @@ clc
 close all
 
 % Initial rotation's angle from 0 to 2PI with angle's step of PI/6
-ANGLES = 0:30:360;
+MAX_ANGLE = 360;
+ANGLE_STEP = 30;
+ANGLES = 0:ANGLE_STEP:MAX_ANGLE;
 % Number of tries for each initial combination: 1D/3D rotation + random 3D traslation
 TRIES_ANGLE = 100;
 % Number of tries for each initial combination: random 3D rotation + random 3D traslation
@@ -32,14 +34,16 @@ MODEL_ID = 'oc';
 rotType = '3D';
 [avgError, avgTime] = error_per_angle(ORIGINAL_MODEL, TRANSFORMED_MODEL, TRIES_ANGLE, ANGLES, MAX_TRASLATION, MAX_ITERATIONS, rotType);
 
+% Plot average errors and times from error_per_angle function, save plots as .png files and save values in .csv files.
+% Example for file name: oc_error3D_100i.png
+plot_values(ANGLES, avgError, 'Rmse', MODEL_ID, rotType, MAX_ITERATIONS, MAX_ANGLE);
+plot_values(ANGLES, avgTime, 'Time', MODEL_ID, rotType, MAX_ITERATIONS, MAX_ANGLE);
+
 % For TRIES_ITER times, randomly define an initial 3D rotation + translation matrix
 % and then apply ICP algorithm 3 times: the first time with 50 max iterations,
 % the second with 100 max iterations and the last one with 200
-% [errors, times] = error_per_iter(ORIGINAL_MODEL, TRANSFORMED_MODEL, TRIES_ITER, MAX_TRASLATION, MAX_ROTATION, [50, 100, 200]);
+[errors, times] = error_per_iter(ORIGINAL_MODEL, TRANSFORMED_MODEL, TRIES_ITER, MAX_TRASLATION, MAX_ROTATION, [50, 100, 200]);
 
-% Plot average errors and times, save plots as .png files and save values
-% in .csv files. Example for file name: oc_error3D_100i.png
-plot_values(ANGLES, avgError, 'Error', MODEL_ID, rotType, MAX_ITERATIONS);
-plot_values(ANGLES, avgTime, 'Time', MODEL_ID, rotType, MAX_ITERATIONS);
-
-% TO DO: grafico a torta di errors
+% Create pie charts for errors and times from error_per_iter function and save them as .png files
+% Example for file name: oc_piechart_100i.png
+pie_chart(errors, times, 'numPies', 3);
