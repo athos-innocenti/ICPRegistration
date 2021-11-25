@@ -6,9 +6,11 @@ function [avgError, avgTime] = error_per_angle(originalModel, transformedModel, 
         errors = zeros(1, triesPerAngle);
         times = zeros(1, triesPerAngle);
         for t = 1:triesPerAngle
-            trsX = rand(1, maxTraslation);
-            trsY = rand(1, maxTraslation);
-            trsZ = rand(1, maxTraslation);
+            % generate a 1-by-1 vector of uniformly distributed numbers in
+            % the interval (0, maxTraslation)
+            trsX = 0 + (maxTraslation - 0)*rand(1, 1);
+            trsY = 0 + (maxTraslation - 0)*rand(1, 1);
+            trsZ = 0 + (maxTraslation - 0)*rand(1, 1);
             fprintf('ROTATION type:%s angle:%d° try:%d \n', rotType, angleIter, t);
             fprintf('TRASLATION x:%3f y:%3f z:%3f \n', trsX, trsY, trsZ);
 
