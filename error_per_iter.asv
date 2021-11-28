@@ -8,7 +8,7 @@ function [errors, times] = error_per_iter(originalModel, transformedModel, tries
         rotY = randi([0 maxRotation], 1, 1);
         rotZ = randi([0 maxRotation], 1, 1);
 
-        % generate a 1-by-1 vector of uniformly distributed numbers in 
+        % Generate a 1-by-1 vector of uniformly distributed numbers in 
         % the interval (0, maxTraslation)
         trsX = 0 + (maxTraslation - 0)*rand(1, 1);
         trsY = 0 + (maxTraslation - 0)*rand(1, 1);
@@ -16,7 +16,7 @@ function [errors, times] = error_per_iter(originalModel, transformedModel, tries
 
         columnIndex = 1;
         for maxIter = maxIterationsVector
-            fprintf('Try:%d MaxIteration:%d  \n', t, maxIter);
+            fprintf('Try:%d MaxIteration:%d \n', t, maxIter);
             fprintf('ROTATION x:%d° y:%d° z:%d° \n', rotX, rotY, rotZ);
             fprintf('TRASLATION x:%3f y:%3f z:%3f \n', trsX, trsY, trsZ);
 
