@@ -42,8 +42,9 @@ plot_values(ANGLES, avgTime, 'Time', MODEL_ID, rotType, MAX_ITERATIONS, MAX_ANGL
 % For TRIES_ITER times, randomly define an initial 3D rotation + translation matrix
 % and then apply ICP algorithm 3 times: the first time with 50 max iterations,
 % the second with 100 max iterations and the last one with 200
-[errors, times] = error_per_iter(ORIGINAL_MODEL, TRANSFORMED_MODEL, TRIES_ITER, MAX_TRASLATION, MAX_ROTATION, [50, 100, 200]);
+[errors, times] = error_per_iter(ORIGINAL_MODEL, TRANSFORMED_MODEL, TRIES_ITER, MAX_TRASLATION, MAX_ROTATION, [50, 100, 200, 400]);
 
-% Create pie charts for errors and times from error_per_iter function and save them as .png files
-% Example for file name: oc_piechart_100i.png
-pie_chart(errors, times, 'numPies', 3);
+% Create pie chart for errors from error_per_iter function and save it as
+% .png file. Plot errors and times, save plots as .png files
+% and save error and times values in .csv files
+pie_chart(errors, times, [50, 100, 200, 400], 3);
