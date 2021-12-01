@@ -1,4 +1,4 @@
-function [errors, times] = error_per_iter(originalModel, transformedModel, triesPerIter, maxTraslation, maxRotation, maxIterationsVector)
+function [initialErrors, errors, times] = error_per_iter(originalModel, transformedModel, triesPerIter, maxTraslation, maxRotation, maxIterationsVector)
     initialErrors = zeros(triesPerIter, length(maxIterationsVector));
     errors = zeros(triesPerIter, length(maxIterationsVector));
     times = zeros(triesPerIter, length(maxIterationsVector));
