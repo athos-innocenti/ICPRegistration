@@ -57,7 +57,7 @@ function [] = pie_chart(errors, times, maxIterations, numPies)
         pie(ax, percent);
         title([num2str(maxIterations(1, maxIters)), ' Iterations']);
     end
-    labels = {['(0, ',num2str(trshs(1, 1)),']'], ['(',num2str(trshs(1, 1)), ', ', num2str(trshs(1, 2)),']'], ['(',num2str(trshs(1, 2)), ', ', num2str(trshs(1, 3)),']']};
+    labels = {['(0, ',num2str(trshs(1, 1)),']'], ['(',num2str(trshs(1, 1)), ', ', num2str(trshs(1, 2)),']']};
     lgd = legend(labels);
     title(lgd, 'Rmse');
     lgd.Layout.Tile = 'east';
