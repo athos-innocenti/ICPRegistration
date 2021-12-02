@@ -47,4 +47,4 @@ plot_values(ANGLES, avgTime, 'Time', MODEL_ID, rotType, MAX_ITERATIONS, MAX_ANGL
 % Create pie chart for errors from error_per_iter function and save it as
 % .png file. Plot errors and times, save plots as .png files
 % and save error and times values in .csv files
-pie_chart(initialErrors, errors, times, [50, 100, 200, 400], 2);
+pie_chart(errors, times, [50, 100, 200, 400], 2);
