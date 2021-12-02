@@ -13,7 +13,7 @@ function [avgError, avgTime] = error_per_angle(originalModel, transformedModel, 
             trsZ = 0 + (maxTraslation - 0)*rand(1, 1);
             fprintf('ROTATION type:%s angle:%d° try:%d \n', rotType, angleIter, t);
             fprintf('TRASLATION x:%3f y:%3f z:%3f \n', trsX, trsY, trsZ);
-
+            
             originalCloud = pcread(originalModel);
             transformedCloud = pcread(transformedModel);
             radAngle = deg2rad(angleIter);
@@ -32,13 +32,14 @@ function [avgError, avgTime] = error_per_angle(originalModel, transformedModel, 
             end
             ptCloudTransformed = pctransform(transformedCloud, initialTransformation);
             
+            % For plotting resulting ICP cloud and original cloud uncomment
+            % line 42 and change [~, ~, rmse] with [~, movingReg, rmse]
             tic;
             [~, ~, rmse] = pcregistericp(ptCloudTransformed, originalCloud, 'Metric', 'pointToPoint', 'MaxIterations', maxIterations, 'Tolerance', [0.001, 0.001]);
-            % [~, movingReg, rmse] = pcregistericp(ptCloudTransformed, originalCloud, 'Metric', 'pointToPoint', 'MaxIterations', maxIterations, 'Tolerance', [0.001, 0.001]);
-            % pcshowpair(originalCloud, movingReg);
             elapsedTime = toc;
             % tic + toc return elapsed time in seconds
             elapsedTime = elapsedTime * 1000;
+            % pcshowpair(originalCloud, movingReg);
             
             fprintf('Error:%f Time[ms]:%f \n\n', rmse, elapsedTime);
             errors(1, t) = rmse;
