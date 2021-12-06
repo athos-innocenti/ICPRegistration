@@ -1,4 +1,4 @@
-function [] = pie_chart(errors, times, maxIterations, numPies)
+function [] = pie_chart(errors, times, maxIterations, numPies, modelId)
     xLimit = size(errors, 1);
     labels = string(maxIterations);
     
@@ -7,8 +7,7 @@ function [] = pie_chart(errors, times, maxIterations, numPies)
         plot(1:xLimit, times(:, i), 'Marker', '.');
         ylabel('Time [ms]');
         ptt = gca;
-        fileName = ['./performance/times_', num2str(maxIterations(1, i)), '.png'];
-        exportgraphics(ptt, fileName, 'Resolution', 600);
+        exportgraphics(ptt, ['./performance/times_', num2str(maxIterations(1, i)), '.png'], 'Resolution', 600);
     end
     pt = plot(1:xLimit, times(:, 1), 1:xLimit, times(:, 2), 1:xLimit, times(:, 3), 1:xLimit, times(:, 4));
     pt(1).Marker = '.';
@@ -25,8 +24,7 @@ function [] = pie_chart(errors, times, maxIterations, numPies)
         plot(1:xLimit, errors(:, i), 'Marker', '.');
         ylabel('Rmse');
         pte = gca;
-        fileName = ['./performance/errors_', num2str(maxIterations(1, i)), '.png'];
-        exportgraphics(pte, fileName, 'Resolution', 600);
+        exportgraphics(pte, ['./performance/errors_', num2str(maxIterations(1, i)), '.png'], 'Resolution', 600);
     end
     pe = plot(1:xLimit, errors(:, 1), 1:xLimit, errors(:, 2), 1:xLimit, errors(:, 3), 1:xLimit, errors(:, 4));
     pe(1).Marker = '.';
@@ -61,5 +59,5 @@ function [] = pie_chart(errors, times, maxIterations, numPies)
     lgd = legend(labels);
     title(lgd, 'Rmse');
     lgd.Layout.Tile = 'east';
-    exportgraphics(t, './performance/oc_piechart.png', 'Resolution', 600);
+    exportgraphics(t, ['./performance/', modelId, '_piechart.png'], 'Resolution', 600);
 end
