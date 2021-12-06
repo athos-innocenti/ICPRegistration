@@ -27,20 +27,22 @@ function [initialErrors, errors, times] = error_per_iter(originalModel, transfor
             initialTransformation = transformation_matrix(deg2rad(rotX), deg2rad(rotY), deg2rad(rotZ), trsX, trsY, trsZ);
             ptCloudTransformed = pctransform(transformedCloud, initialTransformation);
             
-            % Lines 31-32 define the initial rmse between originalCloud and
-            % ptCloudTransformed  before ICP is applied 
+            % Lines 32-33 define the initial rmse between originalCloud and
+            % ptCloudTransformed  before ICP is applied
             [~, pointDistances] = knnsearch(originalCloud.Location, ptCloudTransformed.Location);
             initialRmse = sqrt(sum(pointDistances) / numel(pointDistances));
             initialErrors(t, columnIndex) = initialRmse;
             
             % For plotting resulting ICP cloud and original cloud uncomment
-            % line 42 and change [~, ~, rmse] with [~, movingReg, rmse]
+            % lines 43-45 and change [~, ~, rmse] with [~, movingReg, rmse]
             tic;
             [~, ~, rmse] = pcregistericp(ptCloudTransformed, originalCloud, 'Metric', 'pointToPoint', 'MaxIterations', maxIter, 'Tolerance', [0.001, 0.001]);
             elapsedTime = toc;
             % tic + toc return elapsed time in seconds
             elapsedTime = elapsedTime * 1000;
             % pcshowpair(originalCloud, movingReg);
+            % plt = gca;
+            % exportgraphics(plt, ['./performance/plots/', num2str(maxIter), '_', num2str(t), '.png'], 'Resolution', 600);
             
             fprintf('InitialRmse: %f Error: %f Time[ms]: %f \n\n', initialRmse, rmse, elapsedTime);
             errors(t, columnIndex) = rmse;
