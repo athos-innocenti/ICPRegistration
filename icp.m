@@ -20,7 +20,7 @@ MAX_ROTATION = 360;
 ORIGINAL_MODEL = './model/office_chair_0.ply';
 % Transformed point cloud name (ends with 1 - moving point cloud with fewer points)
 TRANSFORMED_MODEL = './model/office_chair_1.ply';
-% model identifier for .png and .csv files creation
+% Model identifier for .png and .csv files creation
 MODEL_ID = 'oc';
 
 % Given an initial rotation's angle Theta from 0° to 360° with step of 30°,
@@ -46,5 +46,5 @@ plot_values(ANGLES, avgTime, 'Time', MODEL_ID, rotType, MAX_ITERATIONS, MAX_ANGL
 
 % Create pie chart for errors from error_per_iter function and save it as
 % .png file. Plot errors and times, save plots as .png files
-% and save error and times values in .csv files
+% and save errors and times values in .csv files
 pie_chart(errors, times, [50, 100, 200, 400], 2);
