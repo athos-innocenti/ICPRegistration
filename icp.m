@@ -42,15 +42,15 @@ plot_values(ANGLES, avgTime, 'Time', MODEL_ID, rotType, MAX_ITERATIONS, MAX_ANGL
 % For TRIES_ITER times, randomly define an initial 3D rotation + translation matrix
 % and then apply ICP algorithm 3 times: the first time with 50 max iterations,
 % the second with 100 max iterations and the last one with 200
-[initialErrors, errors, times] = error_per_iter(ORIGINAL_MODEL, TRANSFORMED_MODEL, TRIES_ITER, MAX_TRANSLATION, MAX_ROTATION, [50, 100, 200, 400]);
+[initialErrors_epi, errors_epi, times_epi] = error_per_iter(ORIGINAL_MODEL, TRANSFORMED_MODEL, TRIES_ITER, MAX_TRANSLATION, MAX_ROTATION, [50, 100, 200, 400]);
 
 % For TRIES_ITER times, randomly define an initial 3D rotation matrix,
 % calculate point clouds centroid and define a 3D translation vector which
 % overlaps the two centroids. Apply ICP algorithm 3 times: the first time
 % with 50 max iterations, the second with 100 and the last one with 200
-[initialErrors_ci, errors_c, times_c] = centroid_icp(ORIGINAL_MODEL, TRANSFORMED_MODEL, TRIES_ITER, MAX_ROTATION, [50, 100, 200, 400]);
+[initialErrors_ci, errors_ci, times_ci] = centroid_icp(ORIGINAL_MODEL, TRANSFORMED_MODEL, TRIES_ITER, MAX_ROTATION, [50, 100, 200, 400]);
 
 % Create pie chart for errors from error_per_iter or centroid_icp function
 % and save it as .png file. Plot errors and times, save plots as .png files
 % and save errors and times values in .csv files
-pie_chart(errors, times, [50, 100, 200, 400], 2, MODEL_ID);
+pie_chart(errors_ci, times_ci, [50, 100, 200, 400], 2, MODEL_ID);
