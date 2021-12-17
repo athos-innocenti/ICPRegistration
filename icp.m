@@ -50,7 +50,12 @@ plot_values(ANGLES, avgTime, 'Time', MODEL_ID, rotType, MAX_ITERATIONS, MAX_ANGL
 % with 50 max iterations, the second with 100 and the last one with 200
 [initialErrors_ci, errors_ci, times_ci] = centroid_icp(ORIGINAL_MODEL, TRANSFORMED_MODEL, TRIES_ITER, MAX_ROTATION, [50, 100, 200, 400]);
 
-% Create pie chart for errors from error_per_iter or centroid_icp function
-% and save it as .png file. Plot errors and times, save plots as .png files
-% and save errors and times values in .csv files
-pie_chart(errors_ci, times_ci, [50, 100, 200, 400], 2, MODEL_ID);
+% For TRIES_ITER times, randomly define a transformation matrix and an initial 3D rotation + translation matrix
+% and then apply ICP algorithm 3 times: the first time with 50 max iterations,
+% the second with 100 and the last one with 200
+[initialErrors_di, errors_di, times_di] = deformation_icp(ORIGINAL_MODEL, TRANSFORMED_MODEL, TRIES_ITER, MAX_ROTATION, MAX_TRANSLATION, [50, 100, 200, 400], "shearing");
+
+% Create pie chart for errors from error_per_iter / centroid_icp /deformation_icp
+% function and save it as .png file. Plot errors and times, save plots as
+% .png files and save errors and times values in .csv files
+pie_chart(errors_di, times_di, [50, 100, 200, 400], 2, MODEL_ID);
