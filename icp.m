@@ -17,11 +17,11 @@ MAX_TRANSLATION = 1.0;
 % Random initial 3D rotation matrix, different for each try, with max rotation = 360°
 MAX_ROTATION = 360;
 % Original point cloud name (ends with 0)
-ORIGINAL_MODEL = './model/coffee_mug_0.ply';
+ORIGINAL_MODEL = './model/office_chair_0.ply';
 % Transformed point cloud name (ends with 1 - moving point cloud with fewer points)
-TRANSFORMED_MODEL = './model/coffee_mug_1.ply';
+TRANSFORMED_MODEL = './model/office_chair_1.ply';
 % Model identifier for .png and .csv files creation
-MODEL_ID = 'cm';
+MODEL_ID = 'oc';
 
 % Given an initial rotation's angle Theta from 0° to 360° with step of 30°,
 % run ICP algorithm for TRIES_ANGLE times with different 3D random initial translation vector for each try.
@@ -58,13 +58,13 @@ deformationType = "shearing_scaling";
 
 % For TRIES_ITER times, randomly add N points to the point cloud as outliers
 % and randomly define an initial 3D rotation + translation matrix, then 
-% apply ICP algorithm 3 times: the first time with 50 max iterations,
+% apply pcdenoise + ICP algorithm 3 times: the first time with 50 max iterations,
 % the second with 100 max iterations and the last one with 200
-N = 2000;
+N = 5000;
 [initialErrors_oi, errors_oi, times_oi] = outliers_icp(ORIGINAL_MODEL, TRANSFORMED_MODEL, TRIES_ITER, MAX_ROTATION, MAX_TRANSLATION, [50, 100, 200, 400], N);
 
 % Create pie chart for errors from  error_per_iter / centroid_icp /
 % deformation_icp / outliers_icp function and save it as .png file.
 % Plot errors and times, save plots as .png files and 
 % save errors and times values in .csv files
-pie_chart(errors_di, times_di, [50, 100, 200, 400], 2, MODEL_ID);
+pie_chart(errors_oi, times_oi, [50, 100, 200, 400], 2, MODEL_ID);
