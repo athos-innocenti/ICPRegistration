@@ -47,16 +47,19 @@ function [initialErrors, errors, times] = outliers_icp(originalModel, transforme
             initialRmse = sqrt(sum(pointDistances) / numel(pointDistances));
             initialErrors(t, columnIndex) = initialRmse;
             
+            % Remove outliers from transformed cloud
+            denoisedCloud = pcdenoise(transformedCloud, 'NumNeighbors', 5, 'Threshold', 0.5);
+            
             % For plotting resulting ICP cloud and original cloud uncomment
-            % lines 57-59 and change [~, ~, rmse] with [~, movingReg, rmse]
+            % lines 60-62 and change [~, ~, rmse] with [~, movingReg, rmse]
             tic;
-            [~, movingReg, rmse] = pcregistericp(transformedCloud, originalCloud, 'Metric', 'pointToPoint', 'MaxIterations', maxIter, 'Tolerance', [0.001, 0.001]);
+            [~, movingReg, rmse] = pcregistericp(denoisedCloud, originalCloud, 'Metric', 'pointToPoint', 'MaxIterations', maxIter, 'Tolerance', [0.001, 0.001]);
             elapsedTime = toc;
             % tic + toc return elapsed time in seconds
             elapsedTime = elapsedTime * 1000;
-            pcshowpair(originalCloud, movingReg);
-            plt = gca;
-            exportgraphics(plt, ['./performance/plots/', num2str(maxIter), '_', num2str(t), '.png'], 'Resolution', 600);
+            % pcshowpair(originalCloud, movingReg);
+            % plt = gca;
+            % exportgraphics(plt, ['./performance/plots/', num2str(maxIter), '_', num2str(t), '.png'], 'Resolution', 600);
             
             fprintf('InitialRmse: %f Error: %f Time[ms]: %f \n\n', initialRmse, rmse, elapsedTime);
             errors(t, columnIndex) = rmse;
